@@ -1,73 +1,104 @@
 # Automatic Test Case Generator
 
 ## Overview
-This script scans a given project directory (`Project_test_folder/`) for Python files, extracts function definitions, and generates `pytest` unit tests using OpenAI's GPT-4o model. The generated test files are stored in the `tests/` directory.
+The **Automatic Test Case Generator** is a Streamlit-based application that scans Python projects, extracts function definitions, and generates unit test cases using OpenAI's GPT model. The generated tests follow `pytest` best practices and aim to cover various scenarios, including correct inputs, edge cases, and error handling.
 
 ## Features
-- **Automatic Function Detection**: Scans `.py` files and extracts function names.
-- **LLM-Based Test Generation**: Uses GPT-4o to generate `pytest` test cases.
-- **Syntax Validation**: Ensures the generated tests are syntactically correct.
-- **Progress Tracking**: Displays progress using `tqdm`.
+- **Project Scanning**: Identifies Python files and extracts function definitions.
+- **AI-Powered Test Generation**: Uses OpenAI's API to generate `pytest` unit tests.
+- **Interactive UI**: Users can scan projects, generate tests, and edit test files within the Streamlit interface.
+- **Error Handling**: Detects syntax errors in scanned files.
 
-## Prerequisites
-### Install Dependencies
-Ensure you have Python installed and set up a virtual environment if needed.
-```bash
-pip install openai pytest tqdm python-dotenv
+## Technologies Used
+- **Python**
+- **Streamlit** (for UI)
+- **OpenAI API** (for test case generation)
+- **Ast Module** (for Python syntax analysis)
+- **OS & Pathlib** (for file system operations)
+- **Pytest** (for running generated test cases)
+
+## Installation
+### Prerequisites
+Ensure you have Python 3.8+ installed on your system.
+
+### Step 1: Clone the Repository
+```sh
+ git clone https://github.com/your-username/automatic-test-case-generator.git
+ cd automatic-test-case-generator
 ```
 
-### Set Up OpenAI API Key
+### Step 2: Create and Activate a Virtual Environment
+```sh
+ python -m venv venv
+ source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### Step 3: Install Dependencies
+```sh
+ pip install -r requirements.txt
+```
+
+### Step 4: Set Up Environment Variables
 Create a `.env` file in the root directory and add your OpenAI API key:
-```plaintext
-OPENAI_API_KEY=your_openai_api_key
+```
+OPENAI_API_KEY=your_api_key_here
 ```
 
 ## Usage
-### 1. Add Your Python Files
-Ensure that the directory `Project_test_folder/` contains the Python files you want to generate tests for.
-
-Example structure:
-```
-Project_test_folder/
-│── module1.py
-│── module2.py
-│── utils.py
+### 1. Run the Application
+```sh
+ streamlit run app.py
 ```
 
-### 2. Run the Script
-Execute the script to scan and generate test cases:
-```bash
-python auto_test_creator.py
+### 2. Upload a File
+- Upload any Python file from your project to determine its path.
+- The closest project directory is automatically selected.
+
+### 3. Scan the Project
+- Click **"Scan Project"** to detect Python functions across your project.
+- A summary of discovered functions will be displayed.
+
+### 4. Generate Test Cases
+- Click **"Generate Tests"** to create test files.
+- Test cases are stored in a `tests/` folder.
+
+### 5. Edit and Save Tests
+- Modify the generated test files directly within the UI.
+- Click **"Save"** to update the test file.
+
+### 6. Handle Errors
+- If syntax errors are detected in scanned files, they will be displayed in the UI.
+
+## Folder Structure
+```
+project_root/
+│── tests/                 # Generated test files
+│── app.py                 # Streamlit application
+│── requirements.txt       # Dependencies
+│── .env                   # API key configuration
+│── README.md              # Documentation
 ```
 
-### 3. Run the Generated Tests
-Once the test files are generated in the `tests/` directory, execute them using `pytest`:
-```bash
-pytest tests/
+## Example Test Output
+Example generated `test_file.py`:
+```python
+import pytest
+from my_module import my_function
+
+def test_my_function():
+    assert my_function(2, 3) == 5  # Example correct case
+    assert my_function(-1, 1) == 0  # Edge case
+    with pytest.raises(TypeError):
+        my_function("string", 2)  # Error handling
 ```
 
-## Example Output
-```plaintext
-📂 Scanning directory: Project_test_folder/
-✔ Found 3 function(s) in module1.py
-✔ Found 2 function(s) in module2.py
+## Troubleshooting
+- **OpenAI API Error**: Check your API key in `.env`.
+- **File Not Found**: Ensure the uploaded file exists and is accessible.
+- **No Functions Found**: Verify that the Python files contain valid function definitions.
 
-📝 Creating test file for module1.py (3 functions)
-✅ Generated test file: tests/test_module1.py
-
-📝 Creating test file for module2.py (2 functions)
-✅ Generated test file: tests/test_module2.py
-
-🎉 Test case generation complete! Run `pytest tests/` to execute the tests.
-```
-
-## Customization
-- Modify `project_dir` in `main()` to change the target directory.
-- Adjust the prompt in `generate_tests()` to refine test case generation.
+## Contributing
+Contributions are welcome! Feel free to submit issues or pull requests.
 
 ## License
-This project is open-source and can be modified as needed.
-
-## Support
-For issues, open a GitHub issue or contact the maintainer.
-
+This project is licensed under the MIT License.
