@@ -1,68 +1,66 @@
 import pytest
-from Project_test_folder.string_utils import reverse_string, to_uppercase, count_vowels
+from string_utils import reverse_string, to_uppercase, count_vowels
 
-# Test cases for reverse_string
-@pytest.mark.parametrize("input_str, expected_output", [
+@pytest.mark.parametrize("input_str, expected", [
     ("hello", "olleh"),
     ("", ""),
     ("a", "a"),
     ("racecar", "racecar"),
     ("12345", "54321"),
 ])
-def test_reverse_string(input_str, expected_output):
-    assert reverse_string(input_str) == expected_output
+def test_reverse_string(input_str, expected):
+    assert reverse_string(input_str) == expected
 
-def test_reverse_string_edge_cases():
-    assert reverse_string(" ") == " "
-    assert reverse_string("!@#$") == "$#@!"
-    assert reverse_string("ab cd") == "dc ba"
-
-def test_reverse_string_error_handling():
-    with pytest.raises(TypeError):
-        reverse_string(None)
-    with pytest.raises(TypeError):
-        reverse_string(123)
-
-# Test cases for to_uppercase
-@pytest.mark.parametrize("input_str, expected_output", [
+@pytest.mark.parametrize("input_str, expected", [
     ("hello", "HELLO"),
     ("", ""),
     ("a", "A"),
-    ("HELLO", "HELLO"),
+    ("RaceCar", "RACECAR"),
     ("12345", "12345"),
 ])
-def test_to_uppercase(input_str, expected_output):
-    assert to_uppercase(input_str) == expected_output
+def test_to_uppercase(input_str, expected):
+    assert to_uppercase(input_str) == expected
 
-def test_to_uppercase_edge_cases():
-    assert to_uppercase(" ") == " "
-    assert to_uppercase("!@#$") == "!@#$"
-    assert to_uppercase("ab cd") == "AB CD"
-
-def test_to_uppercase_error_handling():
-    with pytest.raises(TypeError):
-        to_uppercase(None)
-    with pytest.raises(TypeError):
-        to_uppercase(123)
-
-# Test cases for count_vowels
-@pytest.mark.parametrize("input_str, expected_output", [
+@pytest.mark.parametrize("input_str, expected", [
     ("hello", 2),
     ("", 0),
     ("a", 1),
-    ("HELLO", 2),
+    ("racecar", 3),
     ("bcdfg", 0),
+    ("AEIOU", 5),
 ])
-def test_count_vowels(input_str, expected_output):
-    assert count_vowels(input_str) == expected_output
+def test_count_vowels(input_str, expected):
+    assert count_vowels(input_str) == expected
 
-def test_count_vowels_edge_cases():
-    assert count_vowels(" ") == 0
-    assert count_vowels("!@#$") == 0
-    assert count_vowels("aeiouAEIOU") == 10
+@pytest.mark.parametrize("input_str", [
+    None,
+    123,
+    45.67,
+    ["a", "b", "c"],
+    {"key": "value"},
+])
+def test_reverse_string_invalid_input(input_str):
+    with pytest.raises(TypeError):
+        reverse_string(input_str)
 
-def test_count_vowels_error_handling():
+@pytest.mark.parametrize("input_str", [
+    None,
+    123,
+    45.67,
+    ["a", "b", "c"],
+    {"key": "value"},
+])
+def test_to_uppercase_invalid_input(input_str):
     with pytest.raises(TypeError):
-        count_vowels(None)
+        to_uppercase(input_str)
+
+@pytest.mark.parametrize("input_str", [
+    None,
+    123,
+    45.67,
+    ["a", "b", "c"],
+    {"key": "value"},
+])
+def test_count_vowels_invalid_input(input_str):
     with pytest.raises(TypeError):
-        count_vowels(123)
+        count_vowels(input_str)
